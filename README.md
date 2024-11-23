@@ -1,5 +1,7 @@
 # EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting
 
+#### [Project page](https://qingpowuwu.github.io/emdgaussian.github.io/)
+
 ## Overview
 
 ![overview](./static/images/2-pipeline.png)
