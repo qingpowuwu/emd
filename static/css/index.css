@@ -1,0 +1,548 @@
+body {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.subtitle.is-5 {
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 400;
+    color: #4a4a4a;
+    line-height: 1.5;
+}
+
+.content {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #363636;
+}
+
+.title.is-3 {
+    margin-bottom: 2.5rem;
+}
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.teaser .hero-body {
+    padding-top: 0;
+    padding-bottom: 0rem;
+}
+
+.teaser {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.publication-banner {
+    max-height: parent;
+}
+
+.publication-banner video {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    object-fit: fit;
+}
+
+.hero-body {
+    padding-bottom: 1.5rem;
+    /* Reduced from default */
+}
+
+.publication-header .hero-body {}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors a {
+    color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+    display: inline-block;
+}
+
+.publication-banner img {}
+
+.publication-authors {
+    /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+    border-radius: 10px !important;
+    margin-bottom: 0;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {}
+
+.results-carousel {
+    overflow: hidden;
+}
+
+.results-carousel .item {
+    margin: 5px;
+    overflow: hidden;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    padding: 0;
+    font-size: 0;
+}
+
+.results-carousel video {
+    margin: 0;
+}
+
+.interpolation-panel {
+    background: #f5f5f5;
+    border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.interpolation-video-column {}
+
+.interpolation-panel .slider {
+    margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+    margin: 0 !important;
+}
+
+#interpolation-image-wrapper {
+    width: 100%;
+}
+
+#interpolation-image-wrapper img {
+    border-radius: 5px;
+}
+
+.gradient-text {
+    background: linear-gradient(120deg, hsla(216, 97%, 85%, 1) 0%, hsla(216, 97%, 49%, 0.629) 20%, hsla(216, 97%, 85%, 1) 40%, hsla(216, 97%, 49%, 0.629) 60%, hsla(216, 97%, 85%, 1) 80%, hsla(216, 97%, 49%, 0.629) 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientFlow 6s linear infinite;
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: -300% center;
+    }
+}
+
+
+/* (1) Pipelines */
+
+.pipeline-image {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.pipeline-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.pipeline-caption {
+    font-size: 16px !important;
+    text-align: justify !important;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.section {
+    padding: 1.5rem 0.5rem;
+}
+
+
+/* (2) videos */
+
+
+/* (2).1 Video comparison styles */
+
+
+/* button */
+
+.button {
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.button.is-primary {
+    background-color: #485fc7;
+    color: white;
+}
+
+
+/* speed control buttons */
+
+.speed-controls {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.speed-controls .button {
+    margin: 0 2px;
+}
+
+.speed-controls .button.is-active {
+    background-color: #3273dc;
+    color: white;
+}
+
+
+/* videos */
+
+.video-compare-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.video-compare-wrapper {
+    position: relative;
+    width: 100%;
+    /* aspect-ratio is controlled by JavaScript's codes */
+    overflow: hidden;
+    border-radius: 8px;
+    background: #000;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+.video-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+.video-layer video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.video-layer:first-child {
+    z-index: 1;
+    clip-path: inset(0 50% 0 0);
+}
+
+.compare-slider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+    cursor: ew-resize;
+    transform: translateX(-50%);
+}
+
+.slider-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider-line {
+    width: 2px;
+    height: 100%;
+    background: white;
+}
+
+.video-compare-titles {
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    z-index: 11;
+    pointer-events: none;
+}
+
+.video-compare-titles span {
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+
+/* (2).2 Video stack styles */
+
+.video-stack-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.results-description {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+}
+
+.section-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.highlight {
+    color: #3273dc;
+    font-weight: 600;
+}
+
+.video-stack-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.video-stack-wrapper video {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+.video-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 10;
+}
+
+
+/* (2).3 StreetGaussian comparison styles */
+
+.streetgaussian-compare-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.comparison-video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scene-buttons {
+    margin-top: 1.5rem;
+}
+
+.scene-buttons .button {
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.scene-buttons .button.is-selected {
+    transform: scale(1.05);
+}
+
+.video-comparison-tabs {
+    margin-bottom: 1.5rem;
+}
+
+.comparison-content {
+    transition: opacity 0.3s ease;
+}
+
+.playback-controls .button {
+    margin: 0 2px;
+}
+
+.playback-controls .button.is-active {
+    background-color: #3273dc;
+    color: white;
+}
+
+
+/* gradient background */
+
+.video-section {
+    background: linear-gradient(135deg, #3e7ef520 0%, #cde1fc20 50%, #9ec4f340 100%);
+    padding: 3rem 1.5rem;
+    margin: 0;
+}
+
+
+/* Hero section modifications */
+
+.hero .button {
+    background-color: rgba(5, 5, 6, 0.87);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.hero .button:hover {
+    background-color: #1c1c1c;
+    /* Almost black */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Zoom section background enhancement */
+
+.video-section {
+    background: linear-gradient(135deg, #3e7ef530 0%, #cde1fc0a 50%, #9ec4f354 100%);
+    padding: 3rem 1.5rem;
+    margin: 0;
+}
+
+.zoom-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+}
+
+
+/* Make sure text and content are visible on the gradient background */
+
+
+/* Remove background from specific sections */
+
+#rgb-comparison-section,
+#diff-rgb-comparison-section {
+    background: none;
+}
+
+
+/* Keep existing button styles */
+
+.button {
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.button.is-primary {
+    background-color: #485fc7;
+    color: white;
+}
+
+.button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ddd */
+
+.section.zoom-section {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    /* Reduce overall padding */
+    padding: 1.5rem 1.5rem;
+}
+
+
+/* Adjust internal spacing */
+
+.section.zoom-section .title-container {
+    margin-bottom: 1rem;
+    /* Reduce from 2rem */
+}
+
+.section.zoom-section .method-selection {
+    margin: 1rem 0;
+    /* Reduce from 2rem */
+}
+
+.section.zoom-section .scene-navigation {
+    margin: 1rem 0;
+    /* Reduce from 2rem */
+}

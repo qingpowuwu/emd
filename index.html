@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting.">
+    <meta name="keywords" content="Gaussian Splatting, Autonomous Driving">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-PYVRSFMDRL');
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <!-- <link rel="stylesheet" href="./static/css/fontawesome.all.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/EMD_ICON.png">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+
+</head>
+
+<body>
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title">
+                            <span class="gradient-text">EMD:</span> Explicit Motion Modeling for High-Quality Street Gaussian Splatting
+                        </h1>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block"><a href="https://ucwxb.github.io/">Xiaobao Wei</a><sup>*,†</sup>,</span>
+                            <span class="author-block"><a href="https://github.com/qingpowuwu">Qingpo Wuwu</a><sup>*,†</sup>,</span>
+                            <span class="author-block">Zhongyu Zhao<sup>†</sup>,</span>
+                            <span class="author-block">Zhuangzhe Wu,</span>
+                            <span class="author-block"><a href="https://github.com/nnanhuang">Nan Huang</a>,</span>
+                            <span class="author-block"><a href="https://lu-m13.github.io/">Ming Lu</a>,</span>
+                            <span class="author-block"><a href="https://scholar.google.ca/citations?user=vOAzYlcAAAAJ&hl=en">Ningning Ma</a>,</span>
+                            <span class="author-block"><a href="https://www.shanghangzhang.com/">Shanghang Zhang</a><sup>‡</sup></span>
+                        </div>
+
+                        <div class="is-size-5 publication-affiliations">
+                            <p>Peking University, Autonomous Driving Division, NIO</p>
+                        </div>
+
+                        <div class="publication-footnotes is-size-6" style="margin-bottom: 12px;">
+                            <p><sup>*</sup>Equal contribution</p>
+                            <p><sup>†</sup>Work done during internship NIO</p>
+                            <p><sup>‡</sup>Corresponding Author</p>
+                        </div>
+
+                        <div class="publication-links">
+                            <span class="link-block">
+                                <a href="./static/papers/1_Main_Paper.pdf" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                            <span>Paper</span>
+                            </a>
+                            </span>
+                            <span class="link-block">
+                                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon"><i class="fab fa-github"></i></span>
+                            <span>Code coming soon</span>
+                            </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zoom Comparison Section -->
+    <section class="section zoom-section">
+        <div class="container is-fullhd">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-12">
+                    <div class="title-container">
+                        <h2 class="title is-3">Enhanced Scene Reconstruction with Motion Modeling</h2>
+                        <p class="subtitle is-5">Our EMD effectively handles varying motion speeds in street scenes, leading to improved reconstruction quality</p>
+                    </div>
+
+                    <!-- method selection -->
+                    <div class="method-selection mb-4">
+                        <div class="method-tabs">
+                            <span class="method-tab active" data-method="s3gaussian">S3Gaussian Results</span>
+                            <span class="method-tab" data-method="streetgaussian">StreetGaussian Results</span>
+                        </div>
+                    </div>
+
+                    <!-- Scene Navigation -->
+                    <div class="scene-navigation">
+                        <button class="nav-arrow prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                        <div class="scene-container">
+                            <div class="scenes-wrapper">
+                                <!-- Scene 1: RGB Comparison -->
+                                <div class="scene active">
+                                    <div class="columns is-centered">
+                                        <div class="column is-4">
+                                            <h4 class="subtitle is-6">Ground Truth</h4>
+                                            <div class="zoom-container">
+                                                <img class="zoom-image" />
+                                                <div class="image-dimensions"></div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-4">
+                                            <h4 class="subtitle is-6 method-name">S3Gaussian</h4>
+                                            <div class="zoom-container">
+                                                <img class="zoom-image" />
+                                                <div class="image-dimensions"></div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-4">
+                                            <h4 class="subtitle is-6 method-name">S3Gaussian + Ours</h4>
+                                            <div class="zoom-container">
+                                                <img class="zoom-image" />
+                                                <div class="image-dimensions"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Scene 2: Error Visualization -->
+                                <div class="scene">
+                                    <div class="columns is-centered">
+                                        <div class="column is-4">
+                                            <h4 class="subtitle is-6">Ground Truth</h4>
+                                            <div class="zoom-container">
+                                                <img class="zoom-image" />
+                                                <div class="image-dimensions"></div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-4">
+                                            <h4 class="subtitle is-6 method-name">S3Gaussian Error</h4>
+                                            <div class="zoom-container">
+                                                <img class="zoom-image" />
+                                                <div class="image-dimensions"></div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-4">
+                                            <h4 class="subtitle is-6 method-name">S3Gaussian + Ours Error</h4>
+                                            <div class="zoom-container">
+                                                <img class="zoom-image" />
+                                                <div class="image-dimensions"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Dots -->
+                            <div class="nav-dots">
+                                <button class="nav-dot active" data-index="0"></button>
+                                <button class="nav-dot" data-index="1"></button>
+                            </div>
+                        </div>
+
+                        <button class="nav-arrow next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .zoom-section {
+            background: linear-gradient(135deg, #e6f3ff 0%, #ffffff 100%);
+            padding: 3rem 1.5rem;
+        }
+        
+        .title-container {
+            margin-bottom: 2rem;
+        }
+        
+        .scene-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .nav-arrow {
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .nav-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .nav-arrow i {
+            font-size: 1.2rem;
+        }
+        
+        .scene-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .scenes-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 200%;
+        }
+        
+        .scene {
+            width: 50%;
+            opacity: 1;
+            flex-shrink: 0;
+        }
+        
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 1rem;
+            position: relative;
+            /* Add this */
+            z-index: 20;
+            /* Add this */
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #4a4a4a;
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            /* Add this */
+            z-index: 21;
+            /* Add this */
+        }
+        
+        .nav-dot.active {
+            background: #4a4a4a;
+            transform: scale(1.0);
+        }
+        
+        .zoom-container {
+            position: relative;
+            width: 100%;
+            padding-top: 75%;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+        }
+        
+        .zoom-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-out;
+        }
+        
+        .image-dimensions {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 2;
+        }
+        
+        .zoomed {
+            animation: zoomSequence 20s ease-in-out forwards;
+        }
+        
+        @keyframes zoomSequence {
+            0% {
+                transform: scale(1);
+            }
+            8% {
+                transform: scale(1);
+            }
+            60% {
+                transform: scale(var(--zoom-scale, 8));
+            }
+            75% {
+                transform: scale(var(--zoom-scale, 8));
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .method-selection {
+            margin: 2rem 0;
+        }
+        
+        .method-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .method-tab {
+            color: #666;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            position: relative;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .method-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #3273dc;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .method-tab:hover {
+            color: #3273dc;
+        }
+        
+        .method-tab.active {
+            color: #3273dc;
+        }
+        
+        .method-tab.active::after {
+            transform: scaleX(1);
+        }
+        /* 适配移动设备 */
+        
+        @media screen and (max-width: 768px) {
+            .method-tabs {
+                gap: 1rem;
+            }
+            .method-tab {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+
+    <script>
+        const sceneConfigs = {
+            's3gaussian': {
+                '016-0024': {
+                    part: 'part2',
+                    transformOrigin: '59% 82%', // Changed from fixed pixels to percentages
+                    zoomScale: 3
+                },
+                '031-0049': {
+                    part: 'part1',
+                    transformOrigin: '70% 99%',
+                    zoomScale: 1.5
+                },
+                '053-0020': {
+                    part: 'part1',
+                    transformOrigin: '90% 99%',
+                    zoomScale: 2.2
+                },
+                '080-0038': {
+                    part: 'part2',
+                    transformOrigin: '0% 95%',
+                    zoomScale: 2
+                },
+                '089-0038': {
+                    part: 'part3',
+                    transformOrigin: '30% 65%',
+                    zoomScale: 3
+                },
+                '546-0037': {
+                    part: 'part1',
+                    transformOrigin: '0% 95%',
+                    zoomScale: 2
+                }
+            },
+            'streetgaussian': {
+                '090-0004': {
+                    transformOrigin: '99% 85%',
+                    zoomScale: 3
+                },
+                '105-0177': {
+                    transformOrigin: '14% 70%',
+                    zoomScale: 5.5
+                },
+                '150-0012': {
+                    transformOrigin: '2.5% 98%',
+                    zoomScale: 5
+                },
+                '181-0050': {
+                    transformOrigin: '3% 61.3%',
+                    zoomScale: 5.8
+                }
+            }
+        };
+
+        let currentMethod = 's3gaussian';
+        let currentSceneIndex = 0;
+
+        function showScene(index) {
+            const scenesWrapper = document.querySelector('.scenes-wrapper');
+            const dots = document.querySelectorAll('.nav-dot');
+
+            scenesWrapper.style.transform = `translateX(-${index * 50}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+
+            const allImages = document.querySelectorAll('.zoom-image');
+            allImages.forEach(img => {
+                img.classList.remove('zoomed');
+                img.style.transform = 'scale(1)'; // Add this line to reset the scale
+            });
+
+            setTimeout(() => {
+                const currentImages = document.querySelectorAll(`.scene:nth-child(${index + 1}) .zoom-image`);
+                currentImages.forEach(img => img.classList.add('zoomed'));
+            }, 50);
+        }
+
+        function updateScene(direction) {
+            const scenes = Object.keys(sceneConfigs[currentMethod]);
+
+            // Remove zoomed class from all images before updating
+            const allImages = document.querySelectorAll('.zoom-image');
+            allImages.forEach(img => {
+                img.classList.remove('zoomed');
+                img.style.transform = 'scale(1)';
+            });
+
+            currentSceneIndex = (currentSceneIndex + direction + scenes.length) % scenes.length;
+            const sceneId = scenes[currentSceneIndex];
+
+            // Wait a brief moment before updating images and showing the new scene
+            setTimeout(() => {
+                updateImages(currentMethod, sceneId);
+                showScene(0);
+            }, 50);
+        }
+
+        function initializeNavigation() {
+            const prevButton = document.querySelector('.nav-arrow.prev');
+            const nextButton = document.querySelector('.nav-arrow.next');
+
+            prevButton.addEventListener('click', () => updateScene(-1));
+            nextButton.addEventListener('click', () => updateScene(1));
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') updateScene(-1);
+                if (e.key === 'ArrowRight') updateScene(1);
+            });
+        }
+
+        // Add this function to calculate and update transform origin dynamically
+        function updateTransformOrigin(img) {
+            const container = img.closest('.zoom-container');
+            const rect = container.getBoundingClientRect();
+            const config = sceneConfigs[currentMethod][Object.keys(sceneConfigs[currentMethod])[currentSceneIndex]];
+
+            // Get percentage values
+            const [xPercent, yPercent] = config.transformOrigin.split(' ');
+
+            // Calculate actual pixels based on current container size
+            const xPixel = (parseFloat(xPercent) / 100) * rect.width;
+            const yPixel = (parseFloat(yPercent) / 100) * rect.height;
+
+            img.style.transformOrigin = `${xPixel}px ${yPixel}px`;
+        }
+
+        function updateImages(method, sceneId) {
+            const config = sceneConfigs[method][sceneId];
+            const basePath = `./static/images/1_Teasers/${method === 's3gaussian' ? '1_s3gaussian' : '2_streetgaussian'}/${sceneId}`;
+
+            const images = document.querySelectorAll('.zoom-image');
+            images.forEach(img => {
+                img.style.transform = 'scale(1)';
+                img.style.transformOrigin = config.transformOrigin;
+                img.style.setProperty('--zoom-scale', config.zoomScale);
+                img.style.setProperty('--animation-duration', '26s');
+
+                // Update transform origin when image loads
+                img.onload = function() {
+                    updateTransformOrigin(img);
+                    const dimensions = img.closest('.zoom-container').querySelector('.image-dimensions');
+                    const boundingBox = img.getBoundingClientRect();
+                    dimensions.textContent = `${Math.round(boundingBox.width)}×${Math.round(boundingBox.height)} px`;
+                };
+            });
+
+            if (method === 's3gaussian') {
+                const frameNum = sceneId.split('-')[1];
+                document.querySelectorAll('.scene:first-child .zoom-image')[0].src = `${basePath}/gts/frame_${frameNum}_${config.part}.png`;
+                document.querySelectorAll('.scene:first-child .zoom-image')[1].src = `${basePath}/s3gaussian/frame_${frameNum}_${config.part}.png`;
+                document.querySelectorAll('.scene:first-child .zoom-image')[2].src = `${basePath}/ours/frame_${frameNum}_${config.part}.png`;
+
+                document.querySelectorAll('.scene:last-child .zoom-image')[0].src = `${basePath}/gts/frame_${frameNum}_${config.part}.png`;
+                document.querySelectorAll('.scene:last-child .zoom-image')[1].src = `${basePath}/s3gaussian/error_${config.part}.png`;
+                document.querySelectorAll('.scene:last-child .zoom-image')[2].src = `${basePath}/ours/error_${config.part}.png`;
+            } else {
+                document.querySelectorAll('.scene:first-child .zoom-image')[0].src = `${basePath}/gts/frame.png`;
+                document.querySelectorAll('.scene:first-child .zoom-image')[1].src = `${basePath}/streetgaussian/rgb.png`;
+                document.querySelectorAll('.scene:first-child .zoom-image')[2].src = `${basePath}/ours/rgb.png`;
+
+                document.querySelectorAll('.scene:last-child .zoom-image')[0].src = `${basePath}/gts/frame.png`;
+                document.querySelectorAll('.scene:last-child .zoom-image')[1].src = `${basePath}/streetgaussian/diff.png`;
+                document.querySelectorAll('.scene:last-child .zoom-image')[2].src = `${basePath}/ours/diff.png`;
+            }
+
+            const methodText = method === 's3gaussian' ? 'S3Gaussian' : 'StreetGaussian';
+            document.querySelectorAll('.method-name').forEach(el => {
+                el.textContent = el.textContent.replace(/S3Gaussian|StreetGaussian/, methodText);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dots = document.querySelectorAll('.nav-dot');
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index);
+                    showScene(index);
+                });
+            });
+
+            document.querySelectorAll('.method-selection .method-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const method = tab.dataset.method;
+                    currentMethod = method;
+                    currentSceneIndex = 0;
+
+                    document.querySelectorAll('.method-selection .method-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    tab.classList.add('active');
+
+                    const sceneId = Object.keys(sceneConfigs[method])[0];
+                    updateImages(method, sceneId);
+                    showScene(0);
+                });
+            });
+
+            initializeNavigation();
+            document.querySelector('.method-selection .method-tab[data-method="s3gaussian"]').click();
+
+            // Add debugging code with percentage calculations
+            document.querySelectorAll('.zoom-image').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    const rect = e.target.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    // Calculate percentages
+                    const xPercent = (x / rect.width) * 100;
+                    const yPercent = (y / rect.height) * 100;
+
+                    console.log(`Click coordinates:`);
+                    console.log(`Pixels: ${Math.round(x)}px ${Math.round(y)}px`);
+                    console.log(`Percentages: ${Math.round(xPercent)}% ${Math.round(yPercent)}%`);
+                    console.log(`For sceneConfigs: transformOrigin: '${Math.round(xPercent)}% ${Math.round(yPercent)}%'`);
+                });
+            });
+
+
+            // Add window resize handler here
+            window.addEventListener('resize', () => {
+                const images = document.querySelectorAll('.zoom-image');
+                images.forEach(img => {
+                    updateTransformOrigin(img);
+                });
+            });
+        });
+    </script>
+
+    <!-- Method Section -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-10">
+                    <!-- <h1 class="title is-2">A plug-and-play module that addresses varying motion speeds in street scenes!</h1> -->
+                    <h2 class="title is-3">EMD: A Plug-and-Play Motion Modeling Framework</h2>
+                    <div class="pipeline-image">
+                        <img src="./static/images/2-pipeline.png" alt="EMD" />
+                    </div>
+                    <!-- Method Section Description -->
+                    <h2 class="subtitle has-text-centered pipeline-caption">
+                        Our <b>EMD</b> framework introduces two key components: <b>Motion-aware Feature Encoding</b> for capturing dynamic characteristics and <b>Dual-scale Deformation Framework</b> for handling varying motion speeds. This architecture
+                        enables effective modeling of both fast global motions and slow local deformations in complex street scenes.
+                    </h2>
+                </div>
+    </section>
+
+
+    <!-- Abstract Section -->
+    <section id="abstract-section" class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-10">
+                    <h2 class="title is-3">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            Photorealistic reconstruction of street scenes is essential for developing real-world simulators in autonomous driving. While recent methods based on 3D/4D Gaussian Splatting (GS) have demonstrated promising results, they still encounter challenges in
+                            complex street scenes due to the unpredictable motion of dynamic objects. Current methods typically decompose street scenes into <strong>
+                                static</strong> and <strong>
+                                    dynamic objects</strong> , learning the Gaussians in either a supervised manner (e.g., w/ 3D bounding-box) or a self-supervised manner (e.g., w/o 3D bounding-box). However, these approaches do not effectively model
+                            the motions of dynamic objects (e.g., the motion speed of pedestrians is clearly different from that of vehicles), resulting in suboptimal scene decomposition.
+                        </p>
+                        <p>
+                            To address this, we propose <strong>Explicit Motion Decomposition (EMD)</strong>, which models the motions of dynamic objects by introducing learnable motion embeddings to the Gaussians, enhancing the decomposition in street
+                            scenes. The proposed EMD is a plug-and-play approach applicable to various baseline methods. We also propose tailored training strategies to apply EMD to both supervised and self-supervised baselines. Through comprehensive
+                            experimentation, we illustrate the effectiveness of our approach with various established baselines.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Side by Side Video Section -->
+    <section id="rgb-comparison-section" class="section video-section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-11">
+                    <h2 class="title is-3">Improved Scene Reconstruction</h2>
+
+                    <!-- Video Selection Buttons -->
+                    <div id="sidebyside-buttons" class="mb-5">
+                        <!-- Increased margin bottom -->
+                        <button id="sidebyside-scene089" class="button">Scene 089</button>
+                        <button id="sidebyside-scene546" class="button">Scene 546</button>
+                        <button id="sidebyside-scene053" class="button is-primary">Scene 053</button>
+                        <button id="sidebyside-scene080" class="button">Scene 080</button>
+                        <button id="sidebyside-scene640" class="button">Scene 640</button>
+                        <button id="sidebyside-scene323" class="button">Scene 323</button>
+                    </div>
+
+                    <!-- Video Comparison Container -->
+                    <div id="video-stack-container" class="video-stack-container mb-5">
+                        <!-- Added margin bottom -->
+                        <div class="video-stack-wrapper">
+                            <div class="video-title">S3Gaussian</div>
+                            <video id="sidebyside-s3gsVideo" width="100%" height="auto" loop playsinline autoplay muted>
+                            <source src="./static/videos/self_supervised/S3Gaussian/rgb/080_50000_rgbs.mp4" type="video/mp4">
+                        </video>
+                        </div>
+                        <div class="video-stack-wrapper">
+                            <div class="video-title">S3Gaussian + Ours</div>
+                            <video id="sidebyside-oursVideo" width="100%" height="auto" loop playsinline autoplay muted>
+                            <source src="./static/videos/self_supervised/ours/rgb/080_55000_rgbs.mp4" type="video/mp4">
+                        </video>
+                        </div>
+                    </div>
+
+                    <!-- Results Description -->
+                    <div class="results-description">
+                        <p class="section-subtitle">
+                            Comprehensive evaluation showing <span class="highlight">+1.81 PSNR</span> improvement in full scenes and <span class="highlight">+2.81 PSNR</span> in vehicle regions
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Slider Video Section -->
+    <section id="diff-rgb-comparison-section" class="section video-section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-11">
+                    <h2 class="title is-3">Error Analysis & Visualization</h2>
+                    <!-- Video Selection Buttons -->
+                    <div class="mb-4">
+                        <button id="slider-scene089" class="button">Scene 089</button>
+                        <button id="slider-scene546" class="button">Scene 546</button>
+                        <button id="slider-scene053" class="button is-primary">Scene 053</button>
+                        <button id="slider-scene080" class="button">Scene 080</button>
+                        <button id="slider-scene640" class="button">Scene 640</button>
+                        <button id="slider-scene323" class="button">Scene 323</button>
+                    </div>
+
+                    <!-- Video Comparison Container -->
+                    <div class="video-compare-container">
+                        <div class="video-compare-wrapper">
+                            <div class="video-layer">
+                                <video id="slider-s3gsVideo" loop playsinline autoplay muted>
+                                <source src="./static/videos/s3gaussian/output/S3Gaussian/diff_rgb/016_50000_diff_rgbs-s3gaussian-016.mp4" type="video/mp4">
+                            </video>
+                            </div>
+                            <div class="video-layer">
+                                <video id="slider-oursVideo" loop playsinline autoplay muted>
+                                <source src="./ours/diff_rgb/016_50000_diff_rgbs-ours-016.mp4" type="video/mp4">
+                            </video>
+                            </div>
+                            <div class="compare-slider">
+                                <div class="slider-handle">
+                                    <div class="slider-line"></div>
+                                </div>
+                            </div>
+                            <div class="video-compare-titles">
+                                <span>S3Gaussian</span>
+                                <span>S3Gaussian + Ours</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Street Scene Reconstruction Section -->
+    <section id="streetgaussian-section" class="section video-section">
+        <!-- Change from is-max-desktop to is-fullhd for wider container -->
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <!-- Change from is-12 to is-full for full width -->
+                <div class="column is-12">
+                    <h2 class="title is-3">High-Quality Street Scene Reconstruction</h2>
+                    <!-- Add max-width to the container -->
+                    <div class="streetgaussian-compare-container wider-container">
+                        <div class="columns is-centered">
+                            <!-- Adjust column sizes for wider layout -->
+                            <div class="column is-one-third">
+                                <h3 class="subtitle is-5 video-subtitle">Ground Truth</h3>
+                                <video id="gt-rgb-video" class="comparison-video" autoplay loop muted playsinline>
+                                <source src="./static/videos/supervised/ours/gt_rgb/waymo_emb_026.mp4" type="video/mp4">
+                            </video>
+                            </div>
+                            <div class="column is-one-third">
+                                <h3 class="subtitle is-5 video-subtitle">StreetGaussian + Ours</h3>
+                                <video id="our-rgb-video" class="comparison-video" autoplay loop muted playsinline>
+                                <source src="./static/videos/supervised/ours/rgb/waymo_emb_026.mp4" type="video/mp4">
+                            </video>
+                            </div>
+                            <div class="column is-one-third">
+                                <h3 class="subtitle is-5 video-subtitle">Reconstruction Error</h3>
+                                <video id="diff-video" class="comparison-video" autoplay loop muted playsinline>
+                                <source src="./static/videos/supervised/ours/diff_rgb/waymo_emb_026.mp4" type="video/mp4">
+                            </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scene Selection Buttons -->
+                    <div class="scene-buttons scene-buttons-spacing">
+                        <div class="buttons has-addons is-centered">
+                            <button class="button is-info is-selected" data-scene="026">
+                            <span class="icon"><i class="fas fa-car"></i></span>
+                            <span>Scene 026</span>
+                        </button>
+                            <button class="button" data-scene="108">
+                            <span class="icon"><i class="fas fa-traffic-light"></i></span>
+                            <span>Scene 108</span>
+                        </button>
+                            <button class="button" data-scene="150">
+                            <span class="icon"><i class="fas fa-road"></i></span>
+                            <span>Scene 150</span>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Results Description -->
+            <div class="results-description">
+                <p class="section-subtitle">
+                    Results highlight improved metrics with
+                    <span class="highlight">PSNR increased by 1.42</span> and
+                    <span class="highlight">SSIM improved by 1.1%</span> for complete scene synthesis
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ablation Section -->
+    <section class="section" id="ablation">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column is-11 content has-text-centered">
+                    <h2 class="title is-3">Ablation Study</h2>
+                    <p class="section-subtitle">
+                        Examining the contribution of each component in our EMD framework
+                    </p>
+                    <div class="columns is-centered">
+                        <div class="column is-full">
+                            <figure class="image">
+                                <img src="./static/images/4_ablations.png" alt="Ablation study results">
+                                <figcaption class="has-text-centered mt-2">
+                                    Qualitative ablation study results across three camera views from the Waymo dataset.
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bibtex Section -->
+
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <div class="columns is-centered">
+                <div class="column is-11 content">
+                    <h2 class="title">BibTeX</h2>
+                    <!-- Option 1: Cool blue gradient -->
+                    <pre style="border-radius: 6px; background: linear-gradient(to right, 
+    rgba(255, 243, 206, 0.556) 0%,
+    rgba(255, 240, 245, 0.7) 50%,
+    rgba(255, 245, 250, 0.7) 100%
+); padding: 20px; color: black;"><code>@article{wei2024emd,
+        author    = {Wei, Xiaobao and Wuwu, Qingpo and Zhao, Zhongyu and Wu, Zhuangzhe and Huang, Nan and Lu, Ming and Ma, Ningning and Zhang, Shanghang},
+        title     = {EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting},
+        journal   = {Under Review},
+        year      = {2024},
+    }</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-8 has-text-centered">
+                    <div class="content">
+                        <div class="mb-4">
+                            <a class="icon-link" href="./static/papers/1_Main_Paper.pdf">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                            <!-- Changed to point to current page with # -->
+                            <a class="icon-link" href="#" class="external-link">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                        <p>
+                            This website template is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. We appreciate the authors for sharing their code.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+</body>
+
+</html>
