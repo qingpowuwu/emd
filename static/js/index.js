@@ -506,6 +506,165 @@ function initializeStreetGaussianComparison() {
     document.querySelector('.scene-buttons .button[data-scene="026"]').click();
 }
 
+// const path for lane change comparison
+function generateLaneChangeScenes() {
+    const scenes = ['053', '080', '089', '546', '640'];
+    const offsets = ['0.5m', '1.0m', '1.5m'];
+    const base = './static/videos_2025_01_27-Rebuttals';
+    
+    return scenes.reduce((acc, scene) => {
+        acc[`scene${scene}`] = {
+            gt: `${base}/UnchangedGT/ours/${scene}.mp4`,
+            ...offsets.reduce((offsetAcc, offset) => {
+                offsetAcc[offset] = {
+                    s3gs: {
+                        left: `${base}/LaneChangeOffset-${offset}/S3Gaussian/left/${scene}.mp4`,
+                        right: `${base}/LaneChangeOffset-${offset}/S3Gaussian/right/${scene}.mp4`
+                    },
+                    ours: {
+                        left: `${base}/LaneChangeOffset-${offset}/ours/left/${scene}.mp4`,
+                        right: `${base}/LaneChangeOffset-${offset}/ours/right/${scene}.mp4`
+                    }
+                };
+                return offsetAcc;
+            }, {})
+        };
+        return acc;
+    }, {});
+}
+
+const laneChangeScenes = generateLaneChangeScenes();
+
+// Lane Change Speed Control
+function changeLaneVideoSpeed(speed) {
+    const videos = [
+        document.getElementById('lane-gt-video'),
+        document.getElementById('lane-s3gs-video'),
+        document.getElementById('lane-ours-video')
+    ];
+
+    videos.forEach(video => {
+        if (video) {
+            video.playbackRate = speed;
+        }
+    });
+
+    // Update button styles
+    const speedControls = document.querySelector('#lane-change-comparison-section .speed-controls');
+    if (speedControls) {
+        speedControls.querySelectorAll('.button').forEach(btn => {
+            btn.classList.remove('is-active');
+            const btnSpeed = parseFloat(btn.textContent);
+            if (btnSpeed === speed) {
+                btn.classList.add('is-active');
+            }
+        });
+    }
+}
+
+function initializeLaneChangeComparison() {
+    const videos = {
+        gtVideo: document.getElementById('lane-gt-video'),
+        s3gsVideo: document.getElementById('lane-s3gs-video'),
+        oursVideo: document.getElementById('lane-ours-video')
+    };
+
+    let currentDirection = 'left';
+    let currentOffset = '0.5m';
+
+    // Offset switching functionality
+    const offsetButtons = document.querySelectorAll('#lane-offset-buttons .button');
+    offsetButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            offsetButtons.forEach(btn => btn.classList.remove('is-warning', 'is-active'));
+            this.classList.add('is-warning', 'is-active');
+            
+            currentOffset = this.id.replace('lane-offset-', '') + 'm';
+            // update offset text
+            document.getElementById('current-offset').textContent = currentOffset + ' lateral offset';
+            
+            // reload videos
+            const currentScene = document.querySelector('#lane-change-buttons .is-primary').id.replace('lane-scene', 'scene');
+            loadSceneVideos(currentScene, currentDirection, currentOffset);
+        });
+    });
+
+    // Direction switching functionality
+    const directionButtons = document.querySelectorAll('#lane-direction-buttons .button');
+    directionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            directionButtons.forEach(btn => btn.classList.remove('is-info', 'is-active'));
+            this.classList.add('is-info', 'is-active');
+            
+            currentDirection = this.id.replace('lane-', '');
+            const currentScene = document.querySelector('#lane-change-buttons .is-primary').id.replace('lane-scene', 'scene');
+            loadSceneVideos(currentScene, currentDirection, currentOffset);
+        });
+    });
+
+    function loadSceneVideos(scene, direction, offset) {
+        if (laneChangeScenes[scene]) {
+            const wasPlaying = !videos.gtVideo.paused;
+            const currentTime = videos.gtVideo.currentTime;
+            const currentSpeed = videos.gtVideo.playbackRate;
+
+            // Update video sources
+            videos.gtVideo.src = laneChangeScenes[scene].gt;
+            videos.s3gsVideo.src = laneChangeScenes[scene][offset].s3gs[direction];
+            videos.oursVideo.src = laneChangeScenes[scene][offset].ours[direction];
+
+            // Reload and restore state
+            Object.values(videos).forEach(video => {
+                if (video) {
+                    video.load();
+                    video.currentTime = currentTime;
+                    video.playbackRate = currentSpeed;
+                    if (wasPlaying) {
+                        video.play().catch(console.error);
+                    }
+                }
+            });
+        }
+    }
+
+    // Scene switching functionality
+    const buttons = document.querySelectorAll('#lane-change-buttons .button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            buttons.forEach(btn => btn.classList.remove('is-primary'));
+            this.classList.add('is-primary');
+
+            const scene = 'scene' + this.id.replace('lane-scene', '');
+            loadSceneVideos(scene, currentDirection, currentOffset);
+        });
+    });
+
+    // Video synchronization
+    function syncVideos(sourceVideo) {
+        Object.values(videos).forEach(video => {
+            if (video && video !== sourceVideo && Math.abs(video.currentTime - sourceVideo.currentTime) > 0.1) {
+                video.currentTime = sourceVideo.currentTime;
+            }
+        });
+    }
+
+    // Add synchronization listeners
+    Object.values(videos).forEach(video => {
+        if (video) {
+            ['play', 'pause', 'seeking', 'seeked', 'timeupdate'].forEach(event => {
+                video.addEventListener(event, () => syncVideos(video));
+            });
+
+            video.addEventListener('ended', () => {
+                video.currentTime = 0;
+                video.play().catch(console.error);
+            });
+        }
+    });
+
+    // Set initial speed
+    changeLaneVideoSpeed(0.3);
+}
 
 //Initialize all functions
 //Modify the initialize All function to add default scene loading
@@ -514,10 +673,15 @@ function initializeAll() {
     initializeVideoComparison();
     initializeButtons();
     initializeStreetGaussianComparison();
+    initializeLaneChangeComparison(); // Add this line
 
     // S3Gaussian: default scene trigger
     document.getElementById('slider-scene053').click();
     document.getElementById('sidebyside-scene053').click();
+    // Trigger default scene for lane change comparison
+    document.getElementById('lane-offset-0.5').click();
+    document.getElementById('lane-scene053').click();
+    document.getElementById('lane-left').click();
     // StreetGaussian: default scene trigger
 
     // Preload interpolation images

@@ -689,13 +689,13 @@
                         <div class="video-stack-wrapper">
                             <div class="video-title">S3Gaussian</div>
                             <video id="sidebyside-s3gsVideo" width="100%" height="auto" loop playsinline autoplay muted>
-                            <source src="./static/videos/self_supervised/S3Gaussian/rgb/080_50000_rgbs.mp4" type="video/mp4">
-                        </video>
-                        </div>
-                        <div class="video-stack-wrapper">
-                            <div class="video-title">S3Gaussian + Ours</div>
-                            <video id="sidebyside-oursVideo" width="100%" height="auto" loop playsinline autoplay muted>
-                            <source src="./static/videos/self_supervised/ours/rgb/080_55000_rgbs.mp4" type="video/mp4">
+                                <source src="./static/videos/self_supervised/S3Gaussian/rgb/080.mp4" type="video/mp4">
+                            </video>
+                            </div>
+                            <div class="video-stack-wrapper">
+                                <div class="video-title">S3Gaussian + Ours</div>
+                                <video id="sidebyside-oursVideo" width="100%" height="auto" loop playsinline autoplay muted>
+                                <source src="./static/videos/self_supervised/ours/rgb/080.mp4" type="video/mp4">
                         </video>
                         </div>
                     </div>
@@ -711,6 +711,77 @@
         </div>
     </section>
 
+
+    <!-- Lane Change Video Section -->
+    <section id="lane-change-comparison-section" class="section video-section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-11">
+                    <h2 class="title is-3">Lane Change Novel View Synthesis</h2>
+
+                    <!-- Offset Selection Buttons -->
+                    <div id="lane-offset-buttons" class="mb-5">
+                        <button id="lane-offset-0.5" class="button is-warning is-active">0.5m Offset</button>
+                        <button id="lane-offset-1.0" class="button">1.0m Offset</button>
+                        <button id="lane-offset-1.5" class="button">1.5m Offset</button>
+                    </div>
+
+                    <!-- Video Selection Buttons -->
+                    <div id="lane-change-buttons" class="mb-5">
+                        <button id="lane-scene053" class="button is-primary">Scene 053</button>
+                        <button id="lane-scene080" class="button">Scene 080</button>
+                        <button id="lane-scene089" class="button">Scene 089</button>
+                        <button id="lane-scene546" class="button">Scene 546</button>
+                        <button id="lane-scene640" class="button">Scene 640</button>
+                    </div>
+
+                    <!-- Video Direction Buttons -->
+                    <div id="lane-direction-buttons" class="mb-5">
+                        <button id="lane-left" class="button is-info is-active">Left View</button>
+                        <button id="lane-right" class="button">Right View</button>
+                    </div>
+
+                    <!-- Video Comparison Container -->
+                    <div id="lane-change-stack-container" class="video-stack-container mb-5">
+                        <div class="video-stack-wrapper">
+                            <div class="video-title">Unchanged GT</div>
+                            <video id="lane-gt-video" width="100%" height="auto" loop playsinline autoplay muted>
+                                <source src="./static/videos_2025_01_27-Rebuttals/UnchangedGT/ours/053.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-stack-wrapper">
+                            <div class="video-title">S3Gaussian</div>
+                            <video id="lane-s3gs-video" width="100%" height="auto" loop playsinline autoplay muted>
+                                <source src="./static/videos_2025_01_27-Rebuttals/LaneChangeOffset-0.5m/S3Gaussian/left/053.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-stack-wrapper">
+                            <div class="video-title">S3Gaussian + Ours</div>
+                            <video id="lane-ours-video" width="100%" height="auto" loop playsinline autoplay muted>
+                                <source src="./static/videos_2025_01_27-Rebuttals/LaneChangeOffset-0.5m/ours/left/053.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+
+                    <!-- Speed Control Buttons -->
+                    <div class="speed-controls mb-5">
+                        <button class="button is-small" onclick="changeLaneVideoSpeed(0.1)">0.1x</button>
+                        <button class="button is-small is-active" onclick="changeLaneVideoSpeed(0.3)">0.3x</button>
+                        <button class="button is-small" onclick="changeLaneVideoSpeed(0.5)">0.5x</button>
+                        <button class="button is-small" onclick="changeLaneVideoSpeed(0.8)">0.8x</button>
+                        <button class="button is-small" onclick="changeLaneVideoSpeed(1.0)">1.0x</button>
+                    </div>
+
+                    <!-- Results Description -->
+                    <div class="results-description">
+                        <p class="section-subtitle">
+                            Novel view synthesis at <span id="current-offset" class="highlight">0.5m lateral offset</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!-- Slider Video Section -->
@@ -734,12 +805,12 @@
                         <div class="video-compare-wrapper">
                             <div class="video-layer">
                                 <video id="slider-s3gsVideo" loop playsinline autoplay muted>
-                                <source src="./static/videos/s3gaussian/output/S3Gaussian/diff_rgb/016_50000_diff_rgbs-s3gaussian-016.mp4" type="video/mp4">
+                                <source src="./static/videos/self_supervised/S3Gaussian/diff_rgb/053.mp4" type="video/mp4">
                             </video>
                             </div>
                             <div class="video-layer">
                                 <video id="slider-oursVideo" loop playsinline autoplay muted>
-                                <source src="./ours/diff_rgb/016_50000_diff_rgbs-ours-016.mp4" type="video/mp4">
+                                <source src="./static/videos/self_supervised/ours/diff_rgb/053.mp4" type="video/mp4">
                             </video>
                             </div>
                             <div class="compare-slider">
