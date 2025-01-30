@@ -510,7 +510,7 @@ function initializeStreetGaussianComparison() {
 function generateLaneChangeScenes() {
     const scenes = ['053', '080', '089', '546', '640'];
     const offsets = ['0.5m', '1.0m', '1.5m'];
-    const base = './static/videos_2025_01_27-Rebuttals';
+    const base = './static/videos_LaneChange';
     
     return scenes.reduce((acc, scene) => {
         acc[`scene${scene}`] = {
