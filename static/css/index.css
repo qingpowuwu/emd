@@ -224,6 +224,20 @@ body {
     color: white;
 }
 
+.button.is-warning {
+    background-color: #3273dc;
+    color: white;
+}
+
+.button.is-warning.is-active {
+    background-color: #3273dc;
+    color: white;
+}
+
+.button.is-warning:hover {
+    background-color: #3273dc;
+    color: white;
+}
 
 /* speed control buttons */
 
@@ -495,7 +509,8 @@ body {
 /* Remove background from specific sections */
 
 #rgb-comparison-section,
-#diff-rgb-comparison-section {
+#diff-rgb-comparison-section,
+#temporal-embedding-section {
     background: none;
 }
 
