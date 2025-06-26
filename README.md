@@ -1,5 +1,8 @@
 # EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting
 
+## News
+- **[2025/6/26]** EMD is accepted by ICCV2025! Code will be released soon.
+
 #### [Project Page](https://qingpowuwu.github.io/emdgaussian.github.io/) | [**arXiv Paper**](https://arxiv.org/abs/2411.15582)
 
 ## Overview
