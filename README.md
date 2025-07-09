@@ -16,10 +16,9 @@ Photorealistic reconstruction of street scenes is essential for developing real-
 If you find our work useful for your research, please consider citing:
 
 ```bibtex
-@article{wei2024emd,
-  title   = {EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting},
+@inproceedings{wei2025emd,
+  title={EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting},
   author  = {Wei, Xiaobao and Wuwu, Qingpo and Zhao, Zhongyu and Wu, Zhuangzhe and Huang, Nan and Lu, Ming and Ma, Ningning and Zhang, Shanghang},
-  journal = {arXiv preprint arXiv:2411.15582},
-  year    = {2024},
-  url     = {https://arxiv.org/abs/2411.15582}
+  booktitle={Proceedings of the IEEE/CVF international conference on computer vision},
+  year={2025}
 }
