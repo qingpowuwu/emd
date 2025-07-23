@@ -28,7 +28,7 @@ bash train.sh <GPU_ID> <SCENE_ID>
 
 The main modifications in EMD are made to `models/nodes/smpl.py` and `models/nodes/rigid.py`, with corresponding parameters added to the configuration files.
 
-## EMD+S3Gaussian
+## EMD + S3Gaussian
 
 Please follow the [S3Gaussian installation guide](https://github.com/nnanhuang/S3Gaussian?tab=readme-ov-file#environmental-setups) to set up the conda environment and prepare the required datasets (32 dynamic scenes from Waymo).
 
