@@ -34,6 +34,8 @@ Please follow the [S3Gaussian installation guide](https://github.com/nnanhuang/S
 
 To enhance the geometry in S3Gaussian, we densify the sparse depth maps obtained from LiDAR, generating dense depth maps for improved scene representation. Follow [S-NeRF](https://github.com/fudan-zvg/S-NeRF), we use Sparse-Depth-Completion to convert sparse depth map into dense depth maps. Please refer to the "submodules/Sparse-Depth-Completion/inference_dynamic.sh" for more details. 
 
+We also provide a sample [scene 016](https://drive.google.com/file/d/1BXEJXrUFyV6mg8nQDstFABDcz70sco4Y/view?usp=sharing) in Waymo dynamic subset, which includes dense depth maps. Please download it from Google Cloud and unzip it into the correct folder. 
+
 Next, we replace the default rasterizer with one capable of rendering depth maps, using [diff_gauss](https://github.com/slothfulxtx/diff-gaussian-rasterization). Please refer to the installation instructions in the diff_gauss repository.
 
 Finally, to start training, run the following commands:
