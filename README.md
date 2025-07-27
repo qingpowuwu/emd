@@ -1,7 +1,7 @@
 # EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting
 
-> [EMD: Explicit Motion Modeling for High-Quality Street Gaussian Splatting](https://qingpowuwu.github.io/emdgaussian.github.io/)  
-> [Xiaobao Wei](https://ucwxb.github.io/)\*, [Qingpo Wuwu](https://github.com/qingpowuwu)\*, Zhongyu Zhao, Zhuangzhe Wu, Nan Huang, Ming Lu, Ningning Ma, Shanghang Zhang  
+> [Project Page](https://qingpowuwu.github.io/emdgaussian.github.io/)  
+> [Xiaobao Wei](https://ucwxb.github.io/)\*, [Qingpo Wuwu](https://github.com/qingpowuwu)\*, Zhongyu Zhao, Zhuangzhe Wu, Nan Huang, Ming Lu, Ningning Ma, Shanghang Zhang $^\dagger$  
 > ICCV2025 Main Conference Paper  
 > \* Equal contribution  
 > $\dagger$ Corresponding author
